@@ -1,4 +1,4 @@
-# Proyecto Integrado Basado en Clases
+# Proyecto Integrador
 
 Este proyecto implementa los conceptos aprendidos en las clases. Se incluyen:
 1. **Balanceo de cargas (NGINX)**
