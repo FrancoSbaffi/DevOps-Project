@@ -25,6 +25,9 @@ services:
     depends_on:
       - app1
       - app2
+    volumes:
+      - ./app/index.html:/usr/share/nginx/html/index.html
+
 
 
 
