@@ -2,10 +2,10 @@
 
 Este repositorio contiene un proyecto que integra los siguientes temas abordados en clase y a su vez se explica el funcionamiento de:
 
-• Balanceo de cargas y Proxy reverso
-• Almacenamiento por bloques
-• Creación y despliegue de imágenes Docker
-• El uso de Ramas
+• Balanceo de cargas y Proxy reverso <br>
+• Almacenamiento por bloques <br>
+• Creación y despliegue de imágenes Docker <br>
+• El uso de Ramas <br>
 
 ---
 
