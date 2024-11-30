@@ -7,16 +7,13 @@ Este repositorio contiene un proyecto que integra los siguientes temas abordados
 • Creación y despliegue de imágenes Docker <br>
 • El uso de Ramas <br>
 
----
-
 ## Requisitos Previos
 Antes de comenzar, asegúrate de tener instalados los siguientes programas en tu sistema:
 
-• Docker: Para construir y ejecutar los contenedores.
-• Docker Compose: Para facilitar el despliegue de múltiples servicios.
-• Git: Para clonar el repositorio y gestionar las ramas del proyecto.
+• Docker: Para construir y ejecutar los contenedores. <br>
+• Docker Compose: Para facilitar el despliegue de múltiples servicios. <br> 
+• Git: Para clonar el repositorio y gestionar las ramas del proyecto. <br>
 
----
 
 Para verificar que tenés las herramientas instaladas, ejecutá estos comandos:
 
@@ -37,8 +34,8 @@ cd Proyecto-Integrador
 ```
 2. Ramas, este proyecto utiliza dos ramas principales:
 
-• DEVELOP: Para el desarrollo y prueba de nuevas características.
-• MASTER: Exclusiva para producción
+• DEVELOP: Para el desarrollo y prueba de nuevas características. <br>
+• MASTER: Exclusiva para producción <br>
 
 (Una vez los cambios son probados en develop, se hace un pull request para poder mergear a master)
 
