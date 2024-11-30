@@ -185,6 +185,4 @@ docker logs <nombre-del-contenedor>
 ## 🎉 **Créditos**
 
 Este proyecto fue desarrollado por **Franco Sbaffi** como una integración de conceptos clave vistos en clase. 🚀
-```
 
-Este formato incluye los emojis, el uso de Markdown para una estructura ordenada, y una breve explicación de cada parte del proyecto. ¡Espero que te sea útil!
