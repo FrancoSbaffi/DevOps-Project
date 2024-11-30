@@ -1,0 +1,8 @@
+# Ignorar imágenes Docker
+*.tar
+
+# Ignorar contenedores
+*.pid
+
+# Ignorar datos persistentes
+/app/data/
