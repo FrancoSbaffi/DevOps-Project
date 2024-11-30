@@ -1,62 +1,71 @@
-# Proyecto Integrador
 
-Este repositorio contiene un proyecto que integra los siguientes temas abordados en clase y a su vez se explica el funcionamiento de:
+```markdown
+# 🚀 Proyecto Integrador
 
-• Balanceo de cargas y Proxy reverso <br>
-• Almacenamiento por bloques <br>
-• Creación y despliegue de imágenes Docker <br>
-• El uso de Ramas <br>
+Este repositorio presenta un proyecto que integra los principales temas abordados en clase. En él se explican y aplican los conceptos de:
 
-## Requisitos Previos
-Antes de comenzar, asegúrate de tener instalados los siguientes programas en tu sistema:
+- 🌐 **Balanceo de cargas y Proxy reverso**  
+- 💾 **Almacenamiento por bloques**  
+- 🐳 **Creación y despliegue de imágenes Docker**  
+- 🌱 **Uso de ramas para desarrollo y producción**  
 
-• Docker: Para construir y ejecutar los contenedores. <br>
-• Docker Compose: Para facilitar el despliegue de múltiples servicios. <br> 
-• Git: Para clonar el repositorio y gestionar las ramas del proyecto. <br>
+---
 
+## ✅ **Requisitos Previos**
 
-Para verificar que tenés las herramientas instaladas, ejecutá estos comandos:
+Asegúrate de tener instalados los siguientes programas:
+
+- **Docker**: Para construir y ejecutar contenedores.  
+- **Docker Compose**: Para desplegar múltiples servicios fácilmente.  
+- **Git**: Para clonar el repositorio y gestionar las ramas del proyecto.  
+
+Verificá que tenés todo instalado ejecutando:
 
 ```bash
 docker --version
 docker-compose --version
 git --version
 ```
+
 ---
 
-# Configuración del proyecto
+## 🚀 **Configuración del Proyecto**
 
-1. Tenés que clonar el repositorio a tu maquina local
-
+### 1️⃣ Clonar el repositorio
 ```bash
 git clone https://github.com/FrancoSbaffi/Proyecto-Integrador.git
 cd Proyecto-Integrador
 ```
-2. Ramas, este proyecto utiliza dos ramas principales:
 
-• DEVELOP: Para el desarrollo y prueba de nuevas características. <br>
-• MASTER: Exclusiva para producción <br>
+### 2️⃣ Uso de ramas
+Este proyecto utiliza dos ramas principales:
 
-(Una vez los cambios son probados en develop, se hace un pull request para poder mergear a master)
+- **`develop`**: Para desarrollo y pruebas de nuevas características.  
+- **`master`**: Exclusiva para producción.  
 
-3. Balanceo de Cargas y Proxy Reverso:
+ℹ️ *Los cambios realizados en la rama `develop` deben ser probados y luego mergeados a `master` mediante un pull request.*
 
-El balanceo de cargas se implementa con NGINX como proxy reverso, redirigiendo el tráfico a dos aplicaciones (app1 y app2). La configuración de NGINX se encuentra en el archivo nginx/nginx.conf:
+---
+
+## 🌐 **Balanceo de Cargas y Proxy Reverso**
+
+El balanceo de cargas se implementa usando **NGINX** como proxy reverso. Redirige el tráfico entre dos aplicaciones (`app1` y `app2`) para distribuir la carga. 
+
+📁 **Archivo de configuración**: `nginx/nginx.conf`  
+📁 **Página inicial**: `nginx/site.html`  
 
 ```bash
-events {}
-
 http {
     server {
         listen 80;
 
-        # Configuración para servir el archivo site.html
+        # Página inicial
         location / {
             root /usr/share/nginx/html;
             index site.html;
         }
 
-        # Configuración para redirigir las rutas de App1
+        # Redirección a App1
         location /app1 {
             proxy_pass http://app1:3000;
             proxy_set_header Host $host;
@@ -64,7 +73,7 @@ http {
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         }
 
-        # Configuración para redirigir las rutas de App2
+        # Redirección a App2
         location /app2 {
             proxy_pass http://app2:3001;
             proxy_set_header Host $host;
@@ -75,13 +84,16 @@ http {
 }
 ```
 
-Para personalizar el contenido de http://localhost/, se utiliza el archivo nginx/site.html.
+---
 
-4. Creación y despliegue de imágenes Docker
+## 🐳 **Creación y Despliegue de Imágenes Docker**
 
-Cada aplicación y el servidor NGINX tienen su propio Dockerfile para la construcción de imágenes. El despliegue se realiza mediante Docker Compose. La configuración está en el archivo docker-compose.yml:
+Cada aplicación (y el servidor NGINX) tiene su propio **Dockerfile**. El despliegue se realiza con **Docker Compose**.
 
-```bash
+📁 **Archivo Docker Compose**: `docker-compose.yml`  
+Ejemplo:
+
+```yaml
 version: '3.8'
 
 services:
@@ -109,31 +121,33 @@ services:
     depends_on:
       - app1
       - app2
-    volumes:
-      - ./app/index.html:/usr/share/nginx/html/index.html
 ```
-Para construir y levantar los servicios, ejecutá:
+
+Para construir y levantar los servicios:
 
 ```bash
 docker-compose build
 docker-compose up -d
 ```
 
-Importante, siempre usar los comandos cuando estemos dentro de la carpeta "docker".
+⚠️ Asegúrate de estar en la carpeta `docker` antes de ejecutar estos comandos.
 
-5. Almacenamiento por Bloques
+---
 
-El almacenamiento por bloques se maneja específicamente en el archivo docker-compose.yml. Este archivo configura un volumen Docker que se utiliza para persistir datos de las aplicaciones.
+## 💾 **Almacenamiento por Bloques**
 
-En este archivo se define un volumen llamado docker_app_data. Este volumen se utiliza para persistir los datos necesarios para el funcionamiento de las aplicaciones.
+El almacenamiento por bloques se configura automáticamente con volúmenes Docker en el archivo `docker-compose.yml`.
 
-```bash
+Ejemplo de configuración de volúmenes:
+
+```yaml
 volumes:
   app_data:
 ```
-En el servicio app1 y app2, aunque los datos de las aplicaciones no están explícitamente asociados a este volumen en el código actual, podés configurarlo si deseas persistir datos para estas aplicaciones. Por ejemplo:
 
-```bash
+Para persistir datos, podés asociar el volumen `app_data` a tus aplicaciones:
+
+```yaml
 services:
   app1:
     volumes:
@@ -141,37 +155,37 @@ services:
   app2:
     volumes:
       - app_data:/var/www/html
-
 ```
 
-Docker Engine: Docker automáticamente gestiona el volumen bajo el nombre docker_app_data, asegurando que los datos no se pierdan cuando los contenedores se detienen o eliminan.
+---
+
+## 📄 **Acceso a la Aplicación**
+
+Una vez desplegado, accedé a:
+
+- 🏠 **Inicio**: [http://localhost/](http://localhost/)  
+- 🖥️ **App1**: [http://localhost/app1](http://localhost/app1)  
+- 🖥️ **App2**: [http://localhost/app2](http://localhost/app2)  
 
 ---
 
-# Acceso a la Aplicación
+## 🛠️ **Verificación del Estado**
 
-Una vez desplegado el proyecto:
-
-Inicio: Visita http://localhost/ para acceder al sitio principal.
-App1: Visita http://localhost/app1.
-App2: Visita http://localhost/app2.
-
----
-
-# Verificación del estado
-
-Si querés verificar el estado de los contenedores:
-
+### Ver el estado de los contenedores:
 ```bash
 docker ps
 ```
 
-Para consultar los logs de un servicio:
-
+### Consultar los logs de un servicio:
 ```bash
 docker logs <nombre-del-contenedor>
 ```
 
-# Créditos
+---
 
-Este proyecto fue desarrollado como parte de la integración de conceptos clave aprendidos en clase. Autor: Franco Sbaffi.
+## 🎉 **Créditos**
+
+Este proyecto fue desarrollado por **Franco Sbaffi** como una integración de conceptos clave vistos en clase. 🚀
+```
+
+Este formato incluye los emojis, el uso de Markdown para una estructura ordenada, y una breve explicación de cada parte del proyecto. ¡Espero que te sea útil!
