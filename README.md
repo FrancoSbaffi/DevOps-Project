@@ -90,7 +90,6 @@ http {
 Cada aplicación (y el servidor NGINX) tiene su propio **Dockerfile**. El despliegue se realiza con **Docker Compose**.
 
 📁 **Archivo Docker Compose**: `docker-compose.yml`  
-Ejemplo:
 
 ```yaml
 version: '3.8'
