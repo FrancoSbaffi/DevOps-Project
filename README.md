@@ -1,5 +1,4 @@
 
-```markdown
 # 🚀 Proyecto Integrador
 
 Este repositorio presenta un proyecto que integra los principales temas abordados en clase. En él se explican y aplican los conceptos de:
