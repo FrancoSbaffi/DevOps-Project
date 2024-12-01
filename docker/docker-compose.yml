@@ -4,6 +4,7 @@ services:
   app1:
     build:
       context: ./app
+    container_name: app1
     environment:
       - PORT=3000
     ports:
@@ -12,6 +13,7 @@ services:
   app2:
     build:
       context: ./app
+    container_name: app2
     environment:
       - PORT=3001
     ports:
@@ -20,13 +22,15 @@ services:
   nginx:
     build:
       context: ./nginx
+    container_name: nginx
     ports:
       - "80:80"
     depends_on:
       - app1
       - app2
-    volumes:
-      - ./app/index.html:/usr/share/nginx/html/index.html
+
+
+
 
 
 
