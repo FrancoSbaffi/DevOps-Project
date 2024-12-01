@@ -54,34 +54,58 @@ El balanceo de cargas se implementa usando **NGINX** como proxy reverso. Redirig
 📁 **Página inicial**: `nginx/site.html`  
 
 ```bash
+events {}
+
 http {
+    upstream app1 {
+        server app1:80;
+    }
+
+    upstream app2 {
+        server app2:80;
+    }
+
     server {
         listen 80;
 
-        # Página inicial
+        # Redireccionar /app1 a /app1/
+        location = /app1 {
+            return 301 /app1/;
+        }
+
+        # Ruta para app1
+        location /app1/ {
+            proxy_pass http://app1/;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+
+        # Redireccionar /app2 a /app2/
+        location = /app2 {
+            return 301 /app2/;
+        }
+
+        # Ruta para app2
+        location /app2/ {
+            proxy_pass http://app2/;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+
+        # Página principal
         location / {
             root /usr/share/nginx/html;
             index site.html;
         }
-
-        # Redirección a App1
-        location /app1 {
-            proxy_pass http://app1:3000;
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        }
-
-        # Redirección a App2
-        location /app2 {
-            proxy_pass http://app2:3001;
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        }
     }
 }
 ```
+
+- **Balanceo de cargas o Proxy reverso**: NGINX actúa como proxy reverso, dirigiendo las solicitudes entrantes a app1 y app2 según la ruta solicitada.
+- Las directivas proxy_pass redirigen el tráfico a las aplicaciones correspondientes. 
+- Las secciones location manejan las rutas y redirecciones para las aplicaciones y la página principal.
 
 ---
 
@@ -92,46 +116,55 @@ Cada aplicación (y el servidor NGINX) tiene su propio **Dockerfile**. El despli
 📁 **Archivo Docker Compose**: `docker-compose.yml`  
 
 ```yaml
-version: '3.8'
-
 services:
   app1:
     build:
-      context: ./app
-    environment:
-      - PORT=3000
-    ports:
-      - "3000:3000"
+      context: ./app1
+    image: app1_image:latest
+    volumes:
+      - app1-data:/var/www/html
+    networks:
+      - my-network
 
   app2:
     build:
-      context: ./app
-    environment:
-      - PORT=3001
-    ports:
-      - "3001:3001"
+      context: ./app2
+    image: app2_image:latest
+    volumes:
+      - ./app2:/var/www/html
+    networks:
+      - my-network
 
   nginx:
     build:
       context: ./nginx
+    image: nginx_image:latest
     ports:
       - "80:80"
     depends_on:
       - app1
       - app2
+    networks:
+      - my-network
+
+volumes:
+  app1-data:
+
+networks:
+  my-network:
+    driver: bridge
 ```
+
+- **Creación y despliegue de imágenes Docker**: Las imágenes se construyen utilizando los Dockerfile de cada servicio y se despliegan con Docker Compose.
+- **Uso de bind mounts**: En app2, se utiliza un bind mount (./app2:/var/www/html) para que los cambios en el código local se reflejen inmediatamente en el contenedor.
+- **Volúmenes nombrados**: En app1, se utiliza un volumen nombrado (app1-data) para simular almacenamiento por bloques, permitiendo la persistencia de datos.
+- **Red**: Todos los servicios están conectados a la red my-network, lo que permite la comunicación entre ellos.
+- **Puertos**: El servicio nginx expone el puerto 80 en el host.
 
 Para construir y levantar los servicios:
 
 ```bash
-docker-compose build
-docker-compose up -d
-```
-Es probable que al querer ver los contenedores ocurra que hacen un "Exit", para solucionar eso se puede usar dentro de docker/app:
-
-```bash
-chmod +x entrypoint.sh
-dos2unix entrypoint.sh
+docker-compose up --build
 ```
 
 ⚠️ Asegúrate de estar en la carpeta `docker` antes de ejecutar estos comandos.
@@ -140,26 +173,13 @@ dos2unix entrypoint.sh
 
 ## 💾 **Almacenamiento por Bloques**
 
-El almacenamiento por bloques se configura automáticamente con volúmenes Docker en el archivo `docker-compose.yml`.
+El almacenamiento por bloques se implementa utilizando volúmenes de Docker.
 
-Ejemplo de configuración de volúmenes:
+- Volumen nombrado para app1: app1-data definido en docker-compose.yml.
+- Bind mount para app2: ./app2:/var/www/html.
 
-```yaml
-volumes:
-  app_data:
-```
-
-Para persistir datos, podés asociar el volumen `app_data` a tus aplicaciones:
-
-```yaml
-services:
-  app1:
-    volumes:
-      - app_data:/var/www/html
-  app2:
-    volumes:
-      - app_data:/var/www/html
-```
+- Los volúmenes permiten persistir datos y simulan un almacenamiento por bloques. En app1, el volumen app1-data garantiza que los datos se mantengan incluso si el contenedor se elimina.
+- En app2, el bind mount facilita el desarrollo al reflejar cambios en tiempo real.
 
 ---
 
@@ -177,12 +197,32 @@ Una vez desplegado, accedé a:
 
 ### Ver el estado de los contenedores:
 ```bash
-docker ps
+docker-compose ps
 ```
 
 ### Consultar los logs de un servicio:
 ```bash
-docker logs <nombre-del-contenedor>
+docker-compose logs <nombre-del-servicio>
+```
+
+## 🛠️ **Detener y Limpiar el Proyecto**
+
+### Para detener y eliminar todos los contenedores y volúmenes:
+```bash
+docker-compose down --volumes
+```
+
+### Para eliminar las imágenes Docker construidas:
+```bash
+docker rmi app1_image:latest app2_image:latest nginx_image:latest
+```
+
+Nota: Si recibís un error al eliminar las imágenes, asegúraté de que no hay contenedores en ejecución utilizando esas imágenes. Podés detener y eliminar contenedores con:
+
+```bash
+docker ps -a
+docker stop <container_id>
+docker rm <container_id>
 ```
 
 ---
@@ -190,4 +230,7 @@ docker logs <nombre-del-contenedor>
 ## 🎉 **Créditos**
 
 Este proyecto fue desarrollado por **Franco Sbaffi** como una integración de conceptos clave vistos en clase. 🚀
+
+
+Este proyecto está bajo la Licencia MIT.
 
