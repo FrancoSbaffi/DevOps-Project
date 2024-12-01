@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Juego de Esquivar Obstáculos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #222;
+      color: #fff;
+    }
+    h1 {
+      color: #fff;
+    }
+    #gameCanvas {
+      border: 2px solid #fff;
+      background-color: #333;
+      display: block;
+      margin: 20px auto;
+    }
+    #score, #gameOver {
+      font-size: 24px;
+      margin-top: 10px;
+    }
+    #restartButton {
+      padding: 10px 20px;
+      font-size: 18px;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Juego de Esquivar Obstáculos</h1>
+  <canvas id="gameCanvas" width="400" height="500"></canvas>
+  <p id="score">Puntuación: 0</p>
+  <p id="gameOver" style="display: none;">¡Juego Terminado!</p>
+  <button id="restartButton" style="display: none;">Reiniciar Juego</button>
+  <script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+
+    // Variables del jugador
+    const player = {
+      width: 30,
+      height: 30,
+      x: canvas.width / 2 - 15,
+      y: canvas.height - 50,
+      speed: 5,
+      dx: 0
+    };
+
+    // Lista de obstáculos
+    let obstacles = [];
+    let obstacleFrequency = 80; // Frecuencia de aparición de obstáculos
+    let frameCount = 0;
+
+    // Puntuación y estado del juego
+    let score = 0;
+    let isGameOver = false;
+
+    // Control del teclado
+    document.addEventListener('keydown', movePlayer);
+    document.addEventListener('keyup', stopPlayer);
+
+    function movePlayer(e) {
+      if (e.key === 'ArrowLeft' || e.key === 'a') {
+        player.dx = -player.speed;
+      } else if (e.key === 'ArrowRight' || e.key === 'd') {
+        player.dx = player.speed;
+      }
+    }
+
+    function stopPlayer(e) {
+      if (
+        e.key === 'ArrowLeft' || e.key === 'a' ||
+        e.key === 'ArrowRight' || e.key === 'd'
+      ) {
+        player.dx = 0;
+      }
+    }
+
+    function drawPlayer() {
+      ctx.fillStyle = '#00ff00';
+      ctx.fillRect(player.x, player.y, player.width, player.height);
+    }
+
+    function updatePlayer() {
+      player.x += player.dx;
+
+      // Evitar que el jugador se salga del canvas
+      if (player.x < 0) {
+        player.x = 0;
+      }
+      if (player.x + player.width > canvas.width) {
+        player.x = canvas.width - player.width;
+      }
+    }
+
+    function createObstacle() {
+      const obstacleWidth = Math.random() * (60 - 20) + 20;
+      const obstacleHeight = 20;
+      const obstacleX = Math.random() * (canvas.width - obstacleWidth);
+      const obstacleY = -obstacleHeight;
+      const obstacleSpeed = Math.random() * (4 - 2) + 2;
+
+      obstacles.push({
+        x: obstacleX,
+        y: obstacleY,
+        width: obstacleWidth,
+        height: obstacleHeight,
+        dy: obstacleSpeed
+      });
+    }
+
+    function drawObstacles() {
+      ctx.fillStyle = '#ff0000';
+      obstacles.forEach(obstacle => {
+        ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+      });
+    }
+
+    function updateObstacles() {
+      obstacles.forEach(obstacle => {
+        obstacle.y += obstacle.dy;
+      });
+
+      // Eliminar obstáculos que salen del canvas
+      obstacles = obstacles.filter(obstacle => obstacle.y < canvas.height);
+    }
+
+    function checkCollision() {
+      obstacles.forEach(obstacle => {
+        if (
+          player.x < obstacle.x + obstacle.width &&
+          player.x + player.width > obstacle.x &&
+          player.y < obstacle.y + obstacle.height &&
+          player.y + player.height > obstacle.y
+        ) {
+          isGameOver = true;
+        }
+      });
+    }
+
+    function updateScore() {
+      score++;
+      document.getElementById("score").textContent = `Puntuación: ${score}`;
+    }
+
+    function showGameOver() {
+      document.getElementById("gameOver").style.display = "block";
+      document.getElementById("restartButton").style.display = "inline-block";
+    }
+
+    function restartGame() {
+      isGameOver = false;
+      score = 0;
+      obstacles = [];
+      player.x = canvas.width / 2 - player.width / 2;
+      document.getElementById("score").textContent = `Puntuación: ${score}`;
+      document.getElementById("gameOver").style.display = "none";
+      document.getElementById("restartButton").style.display = "none";
+      gameLoop();
+    }
+
+    document.getElementById("restartButton").addEventListener("click", restartGame);
+
+    function gameLoop() {
+      if (isGameOver) {
+        showGameOver();
+        return;
+      }
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      updatePlayer();
+      drawPlayer();
+
+      if (frameCount % obstacleFrequency === 0) {
+        createObstacle();
+      }
+      updateObstacles();
+      drawObstacles();
+
+      checkCollision();
+      updateScore();
+
+      frameCount++;
+      requestAnimationFrame(gameLoop);
+    }
+
+    gameLoop();
+  </script>
+</body>
+</html>
+
+
