@@ -127,6 +127,12 @@ Para construir y levantar los servicios:
 docker-compose build
 docker-compose up -d
 ```
+Es probable que al querer ver los contenedores ocurra que hacen un "Exit", para solucionar eso se puede usar dentro de docker/app:
+
+```bash
+chmod +x entrypoint.sh
+dos2unix entrypoint.sh
+```
 
 ⚠️ Asegúrate de estar en la carpeta `docker` antes de ejecutar estos comandos.
 
