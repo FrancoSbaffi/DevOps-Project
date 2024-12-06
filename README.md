@@ -32,5 +32,5 @@ Acá viene lo interesante:
 - Lo que sirve: asciende a `feature/nueva-funcionalidad` para desarrollarlo a fondo.  
 - Lo que no sirve: se queda, por si las dudas, porque nunca se sabe cuándo puede venir bien.
 
-En definitiva, la rama `staging` es el lugar perfecto para que, como único desarrollador, puedas volcar todas tus ideas, jugar con configuraciones, probar nuevas imágenes Docker, ajustar el `docker-compose.yml` una y otra vez, y todo eso sin tocar ni afectar el código más “serio” de las ramas superiores. Es el semillero de la creatividad, el sótano donde se gestan las innovaciones que podrían (o no) llegar a la cima del proyecto.  
+En definitiva, la rama `staging` es el lugar perfecto para que, como único desarrollador, puedas volcar todas tus ideas, jugar con configuraciones, probar nuevas imágenes Docker, ajustar el `docker-compose.yml` una y otra vez, y todo eso sin tocar ni afectar el código más “serio” de las ramas superiores. 
 
