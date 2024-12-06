@@ -1,19 +1,10 @@
-# Proyecto Integrado Basado en Clases
+# Proyecto Integrador (Rama feature/nueva-funcionalidad)
 
-Este proyecto implementa los conceptos aprendidos en las clases. Se incluyen:
-1. **Balanceo de cargas (NGINX)**
-2. **Almacenamiento por bloques**
-3. **Creación y despliegue de imágenes Docker**
-4. **Repositorios y ramas**
+Esta rama es donde trabajo una nueva funcionalidad de forma aislada, sin afectar la rama `develop` ni la `master`. Acá puedo:
 
----
+- Desarrollar y probar la nueva característica localmente.
+- Ajustar configuraciones (Dockerfiles, archivos HTML, etc.) sin riesgos.
+- Una vez lista, integrarla luego a `develop` cuando se considere que está estable.
 
-## Requisitos Previos
-- Docker y Docker Compose instalados.
-- Git configurado.
+Como soy el único desarrollador, este flujo me ayuda a mantener el código principal intacto y asegurar que las mejoras lleguen bien probadas antes de avanzar hacia producción.
 
-## Pasos para Ejecutar el Proyecto
-### 1. Clonar el Repositorio
-```bash
-git clone https://github.com/usuario/proyecto-integrado.git
-cd proyecto-integrado
