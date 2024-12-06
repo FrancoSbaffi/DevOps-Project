@@ -169,6 +169,14 @@ docker-compose up --build
 
 ⚠️ Asegúrate de estar en la carpeta `docker` antes de ejecutar estos comandos.
 
+```bash
+[+] Running 5/5
+ ✔ Network docker_my-network  Created                                                                              0.4s
+ ✔ Volume "docker_app1-data"  Created                                                                              0.2s
+ ✔ Container docker-app1-1    Created                                                                              4.4s
+ ✔ Container docker-app2-1    Created                                                                              5.1s
+ ✔ Container docker-nginx-1   Created  
+```
 ---
 
 ## 💾 **Almacenamiento por Bloques**
