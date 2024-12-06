@@ -8,6 +8,12 @@ Este repositorio presenta un proyecto que integra los principales temas abordado
 - 🐳 **Creación y despliegue de imágenes Docker**  
 - 🌱 **Uso de ramas para desarrollo y producción**  
 
+En esta rama principal se detalla todo el proyecto final, pero a su vez se puede acceder desde acá para entender mejor el proposito de cada rama:
+
+- [Rama staging](https://github.com/FrancoSbaffi/Proyecto-Integrador/tree/staging)
+- [Rama feature/nueva-funcionalidad](https://github.com/FrancoSbaffi/Proyecto-Integrador/tree/feature/nueva-funcionalidad)
+- [Rama develop](https://github.com/FrancoSbaffi/Proyecto-Integrador/tree/develop)
+
 ---
 
 ## ✅ **Requisitos Previos**
