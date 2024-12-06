@@ -1,41 +1,59 @@
+version: '3.8'
+
 services:
   app1:
     build:
       context: ./app1
-    image: app1_image:latest
+    image: app1_image:dev
+    # Cambiar el volumen o bind mount para staging
     volumes:
-      - app1-data:/var/www/html
+      - ./app1-staging:/var/www/html
+    environment:
+      - APP_ENV=staging
     networks:
-      - my-network
+      - my-staging-network
 
   app2:
     build:
       context: ./app2
-    image: app2_image:latest
+    image: app2_image:dev
+    
     volumes:
-      - ./app2:/var/www/html
+      - ./app2-staging:/var/www/html
+    environment:
+      - APP_ENV=staging
     networks:
-      - my-network
+      - my-staging-network
+
+  app3:
+    build:
+      context: ./app3
+    image: app3_image:dev
+    # Este servicio no existe en master, es solo para staging
+    environment:
+      - APP_ENV=staging
+    networks:
+      - my-staging-network
 
   nginx:
     build:
       context: ./nginx
-    image: nginx_image:latest
+    image: nginx_image:staging
     ports:
-      - "80:80"
+      - "8080:80" # Nota: un puerto distinto a master para no colisionar
+    volumes:
+      - ./nginx/nginx-staging.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       - app1
       - app2
+      - app3
     networks:
-      - my-network
-
-volumes:
-  app1-data:
-  app2-data:
+      - my-staging-network
 
 networks:
-  my-network:
+  my-staging-network:
     driver: bridge
+
 
 
 
