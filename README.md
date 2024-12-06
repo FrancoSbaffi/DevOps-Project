@@ -37,10 +37,12 @@ cd Proyecto-Integrador
 ```
 
 ### 2️⃣ Uso de ramas
-Este proyecto utiliza dos ramas principales:
+Este proyecto utiliza cuatro ramas:
 
 - **`develop`**: Para desarrollo y pruebas de nuevas características.  
-- **`master`**: Exclusiva para producción.  
+- **`master`**: Exclusiva para producción.
+- **`staging`**: Acá va todo lo que se te ocurra. Es la rama más baja, el taller desordenado donde probás de todo. Lo que funciona acá lo podés subir a `feature/nueva-funcionalidad`. Lo que no, lo dejás igual, por ahí mañana sirve.
+- **`feature/nueva-funcionalidad`**: Cuando ya tenés algo más claro y querés laburar una idea más en serio, usás esta rama. Una vez todo chequeado, puede pasar a `develop` y eventualmente a `master`.
 
 ℹ️ *Los cambios realizados en la rama `develop` deben ser probados y luego mergeados a `master` mediante un pull request.*
 
