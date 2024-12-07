@@ -11,7 +11,9 @@ Esta rama presenta una versión más compleja del proyecto, agregando un tercer 
 - **tools/**: Contiene configuraciones experimentales como `nginx-alt.conf`, para escenarios no estándar. Aunque no se use directamente, muestra la capacidad de probar configuraciones avanzadas.
 - **.env.version2.0**: Variables de entorno específicas para esta versión compleja, indicando el `APP_MODE` u otras variables diferenciales.
 
-##Acceder a la App
+---
+
+## Acceder a la App
 
 - Página principal: http://localhost/
 - App1 (Portfolio): http://localhost/app1
