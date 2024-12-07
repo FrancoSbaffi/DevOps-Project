@@ -12,10 +12,11 @@ Esta rama presenta una versión más compleja del proyecto, agregando un tercer 
 - **.env.version2.0**: Variables de entorno específicas para esta versión compleja, indicando el `APP_MODE` u otras variables diferenciales.
 
 ##Acceder a la App
-• Página principal: http://localhost/
-• App1 (Portfolio): http://localhost/app1
-• App2 (Juego): http://localhost/app2
-• App3 (Datos dinámicos): http://localhost/app3
+
+- Página principal: http://localhost/
+- App1 (Portfolio): http://localhost/app1
+- App2 (Juego): http://localhost/app2
+- App3 (Datos dinámicos): http://localhost/app3
   • Usuarios: http://localhost/app3/usuarios
   • Productos: http://localhost/app3/productos
 
