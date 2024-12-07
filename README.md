@@ -60,4 +60,37 @@ docker --version
 docker-compose --version
 node --version
 git --version
+```
 
+1. Clonar el repo e ir a la carpeta clonada:
+
+```bash
+git clone --branch version2.0 https://github.com/FrancoSbaffi/Proyecto-Integrador.git
+cd Proyecto-Integrador
+```
+
+2. Construir y levantar los contendores:
+
+```bash
+docker-compose up --build
+```
+
+Esto levantará las aplicaciones:
+
+- App1: http://localhost/app1
+- App2: http://localhost/app2
+- App3: http://localhost/app3
+
+Uso de los endpoints de App3:
+Accedé a los datos de prueba en los siguientes endpoints:
+
+- Usuarios: http://localhost/app3/usuarios
+- Productos: http://localhost/app3/productos
+
+Ejecución de Scripts:
+Para generar datos de prueba adicionales o realizar pruebas, usá los scripts en la carpeta scripts:
+
+```bash
+bash docker/scripts/generar_usuarios.sh
+bash docker/scripts/populate-db.sh
+```
