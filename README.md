@@ -17,8 +17,8 @@ Esta rama presenta una versión más compleja del proyecto, agregando un tercer 
 - App1 (Portfolio): http://localhost/app1
 - App2 (Juego): http://localhost/app2
 - App3 (Datos dinámicos): http://localhost/app3
-  • Usuarios: http://localhost/app3/usuarios
-  • Productos: http://localhost/app3/productos
+  - Usuarios: http://localhost/app3/usuarios
+  - Productos: http://localhost/app3/productos
 
 ## Cómo Ejecutar
 
