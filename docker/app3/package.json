@@ -1,13 +1,21 @@
 {
-    "name": "app3",
-    "version": "1.0.0",
-    "description": "App3 lee datos de mock-data y los expone via endpoints",
-    "main": "index.js",
-    "dependencies": {
-      "express": "^4.18.2"
-    },
-    "scripts": {
-      "start": "node index.js"
-    }
+  "name": "app3",
+  "version": "1.0.0",
+  "description": "Gestión profesional de usuarios y productos.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": ["usuarios", "productos", "API", "Express", "App3"],
+  "author": "Franco Sbaffi",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
   }
+}
+
   

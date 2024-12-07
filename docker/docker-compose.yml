@@ -23,12 +23,12 @@ services:
     build:
       context: ./app3
     image: app3_image:latest
-    volumes:
-      - ./mock-data:/usr/src/app/mock-data
     environment:
-      - APP_MODE=${APP_MODE}
+      - APP_MODE=version2.0
     networks:
       - my-network
+    ports:
+      - "3002:3002"  # Solo para desarrollo, NGINX lo manejará en producción
 
   nginx:
     build:
@@ -49,6 +49,7 @@ volumes:
 networks:
   my-network:
     driver: bridge
+
 
 
 

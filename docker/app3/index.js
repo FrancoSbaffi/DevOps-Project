@@ -1,40 +1,46 @@
-const express = require('express');
-const fs = require('fs');
-const path = require('path');
-
+const express = require("express");
 const app = express();
-const port = 3000;
+const path = require("path");
+const PORT = process.env.PORT || 3002;
 
-// Ruta base de mock-data (montada con bind mount)
-const mockDataDir = '/usr/src/app/mock-data'; 
+// Datos simulados
+const usuarios = [
+  { id: 1, nombre: "Franco Sbaffi", email: "franco@example.com" },
+  { id: 2, nombre: "Ana López", email: "ana@example.com" },
+  { id: 3, nombre: "Carlos Pérez", email: "carlos@example.com" },
+];
 
-// Leemos variables de entorno (por ejemplo APP_MODE)
-const appMode = process.env.APP_MODE || 'version2.0';
+const productos = [
+  { id: 1, nombre: "Laptop Dell", precio: "$1200" },
+  { id: 2, nombre: "Monitor LG", precio: "$300" },
+  { id: 3, nombre: "Teclado Mecánico", precio: "$150" },
+];
 
-app.get('/', (req, res) => {
-  res.send(`<h1>App3 - Versión Compleja</h1><p>Modo: ${appMode}</p><p>Endpoints: /usuarios, /productos</p>`);
+// Middleware para servir archivos estáticos
+app.use(express.json());
+app.use(express.static(path.join(__dirname, "public")));
+
+// Ruta principal para servir el index.html
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-app.get('/usuarios', (req, res) => {
-  const usuariosPath = path.join(mockDataDir, 'usuarios.json');
-  if (!fs.existsSync(usuariosPath)) {
-    return res.status(404).send({error: 'No se encontró usuarios.json'});
-  }
-  const data = fs.readFileSync(usuariosPath, 'utf-8');
-  const usuarios = JSON.parse(data);
-  res.send(usuarios);
+// Rutas API
+app.get("/usuarios", (req, res) => {
+  res.json(usuarios);
 });
 
-app.get('/productos', (req, res) => {
-  const productosPath = path.join(mockDataDir, 'productos.json');
-  if (!fs.existsSync(productosPath)) {
-    return res.status(404).send({error: 'No se encontró productos.json'});
-  }
-  const data = fs.readFileSync(productosPath, 'utf-8');
-  const productos = JSON.parse(data);
-  res.send(productos);
+app.get("/productos", (req, res) => {
+  res.json(productos);
 });
 
-app.listen(port, () => {
-  console.log(`App3 escuchando en el puerto ${port}`);
+// Inicia el servidor
+app.listen(PORT, () => {
+  console.log(`App3 ejecutándose en http://localhost:${PORT}`);
 });
+
+
+
+
+
+

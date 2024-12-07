@@ -1,5 +1,7 @@
 [
-    { "id": 101, "producto": "Teclado Mecánico", "precio": 120.5 },
-    { "id": 102, "producto": "Mouse Gamer", "precio": 45.99 }
-  ]
+  { "id": 1, "nombre": "Laptop Dell", "precio": 1200 },
+  { "id": 2, "nombre": "Monitor LG", "precio": 300 },
+  { "id": 3, "nombre": "Teclado Mecánico", "precio": 150 }
+]
+
   

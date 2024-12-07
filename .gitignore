@@ -6,3 +6,5 @@
 
 # Ignorar datos persistentes
 /app/data/
+
+.node_modules
