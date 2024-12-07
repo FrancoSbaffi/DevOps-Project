@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   app1:
     build:
@@ -17,6 +19,17 @@ services:
     networks:
       - my-network
 
+  app3:
+    build:
+      context: ./app3
+    image: app3_image:latest
+    volumes:
+      - ./mock-data:/usr/src/app/mock-data
+    environment:
+      - APP_MODE=${APP_MODE}
+    networks:
+      - my-network
+
   nginx:
     build:
       context: ./nginx
@@ -26,16 +39,17 @@ services:
     depends_on:
       - app1
       - app2
+      - app3
     networks:
       - my-network
 
 volumes:
   app1-data:
-  app2-data:
 
 networks:
   my-network:
     driver: bridge
+
 
 
 
