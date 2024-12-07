@@ -1,29 +1,63 @@
 
-# Proyecto Integrador (Versión 2.0)
+# 🚀 Proyecto Integrador - Versión 2.0
 
-Esta rama presenta una versión más compleja del proyecto, agregando un tercer servicio (`app3`) que aprovecha datos falsos y herramientas adicionales.
-
-## Novedades en version2.0
-
-- **app3**: Un nuevo servicio Node.js que lee datos desde `mock-data/` y expone endpoints `/usuarios` y `/productos`. Así demostramos cómo la app puede aprovechar datos dinámicos sin tener una base real de producción.
-- **mock-data/**: Contiene datos ficticios (usuarios, productos), que `app3` consume para simular una API.
-- **scripts/**: Incluye `generar_usuarios.sh`, un script que permite regenerar el archivo `usuarios.json` con nuevos usuarios falsos, reflejándose automáticamente en `app3`.
-- **tools/**: Contiene configuraciones experimentales como `nginx-alt.conf`, para escenarios no estándar. Aunque no se use directamente, muestra la capacidad de probar configuraciones avanzadas.
-- **.env.version2.0**: Variables de entorno específicas para esta versión compleja, indicando el `APP_MODE` u otras variables diferenciales.
+Este README describe los cambios y mejoras implementados en la rama `version2.0`, que representa una evolución significativa respecto a la rama `master`. En esta versión se profesionalizaron las funcionalidades de la aplicación **App3**, y se incorporaron herramientas y configuraciones avanzadas para optimizar el proyecto.
 
 ---
 
-## Acceder a la App
+## 🆕 **Cambios en la Versión 2.0**
 
-- Página principal: http://localhost/
-- App1 (Portfolio): http://localhost/app1
-- App2 (Juego): http://localhost/app2
-- App3 (Datos dinámicos): http://localhost/app3
-  - Usuarios: http://localhost/app3/usuarios
-  - Productos: http://localhost/app3/productos
+1. **App3 - Dashboard Profesional:**
+   - Se mejoró significativamente el diseño de App3, integrando un **dashboard profesional** que permite gestionar usuarios y productos.
+   - Incluye un archivo HTML (`index.html`), con CSS y JavaScript ubicados en la carpeta `public`, ofreciendo un diseño más atractivo y funcional.
+   - Implementación de rutas API para devolver datos simulados de usuarios y productos en formato JSON:
+     - `/usuarios`
+     - `/productos`
 
-## Cómo Ejecutar
+2. **Carpeta `mock-data`:**
+   - Contiene ejemplos de datos estructurados para simular bases de datos de usuarios y productos.
+   - Utilizado para alimentar las funcionalidades de App3.
+
+3. **Carpeta `scripts`:**
+   - Incluye scripts útiles para generación de datos (como `generar_usuarios.sh`) y pruebas de base de datos (`populate-db.sh`).
+
+4. **Proxy Reverso Mejorado con NGINX:**
+   - Se configuró correctamente NGINX para redirigir `/app3` a la nueva App3 profesionalizada en el puerto `3002`.
+
+5. **Compatibilidad Avanzada con Docker:**
+   - Se ajustaron los archivos `Dockerfile` y `docker-compose.yml` para soportar la nueva estructura de App3.
+   - Uso de `express.static` para servir archivos estáticos (HTML, CSS y JS) en App3.
+
+---
+
+## 🔄 **Diferencias con la Rama `master`**
+
+### Rama `master`:
+- **App3**: Contenía una versión básica con datos simulados y un diseño sencillo sin CSS ni JavaScript.
+- **Foco**: En la estructura básica y funcionalidad mínima viable.
+
+### Rama `version2.0`:
+- **App3**: Transformada en una aplicación profesional con un **dashboard interactivo**.
+- **Diseño Mejorado**: Se incorporó un diseño mucho más atractivo con CSS y JavaScript.
+- **Funcionalidad Avanzada**: Soporte para datos simulados, visualización profesional y API funcional.
+- **Carpetas Extra**: Se añadieron `mock-data`, `scripts` y ajustes avanzados en configuraciones.
+
+---
+
+## ✅ **Requisitos Previos**
+
+Asegúrate de tener instalados los siguientes programas:
+
+- **Docker**: Para construir y ejecutar contenedores.
+- **Docker Compose**: Para desplegar múltiples servicios fácilmente.
+- **Node.js**: Para ejecutar y probar localmente los archivos de App3.
+- **Git**: Para clonar el repositorio y gestionar las ramas del proyecto.
+
+Verificá que tenés todo instalado ejecutando:
 
 ```bash
-docker-compose --env-file .env.version2.0 up --build
+docker --version
+docker-compose --version
+node --version
+git --version
 
