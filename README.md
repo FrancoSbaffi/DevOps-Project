@@ -13,6 +13,7 @@ En esta rama principal se detalla todo el proyecto final, pero a su vez se puede
 - [Rama staging](https://github.com/FrancoSbaffi/Proyecto-Integrador/tree/staging)
 - [Rama feature/nueva-funcionalidad](https://github.com/FrancoSbaffi/Proyecto-Integrador/tree/feature/nueva-funcionalidad)
 - [Rama develop](https://github.com/FrancoSbaffi/Proyecto-Integrador/tree/develop)
+- [Proyecto mas complejo](https://github.com/FrancoSbaffi/Proyecto-Integrador/tree/version2.0).
 
 ---
 
