@@ -1,57 +1,37 @@
 
 # 🚀 Proyecto Integrador - Versión 2.0
 
-Este README describe los cambios y mejoras implementados en la rama `version2.0`, que representa una evolución significativa respecto a la rama `master`. En esta versión se profesionalizaron las funcionalidades de la aplicación **App3**, y se incorporaron herramientas y configuraciones avanzadas para optimizar el proyecto.
+Representa una evolución significativa respecto a la rama `master`. En esta versión se utilizan las funcionalidades de la aplicación **App3**, y se incorporaron herramientas y configuraciones avanzadas para optimizar el proyecto. (Load Balancing y Proxy Reverse)
 
 ---
 
-## 🆕 **Cambios en la Versión 2.0**
+## 🆕 Cambios Principales
 
-1. **App3 - Dashboard Profesional:**
-   - Se mejoró significativamente el diseño de App3, integrando un **dashboard profesional** que permite gestionar usuarios y productos.
-   - Incluye un archivo HTML (`index.html`), con CSS y JavaScript ubicados en la carpeta `public`, ofreciendo un diseño más atractivo y funcional.
-   - Implementación de rutas API para devolver datos simulados de usuarios y productos en formato JSON:
+1. **Dashboard Profesional en App3**:
+   - Incluye un `index.html` con CSS y JavaScript en la carpeta `public`.
+   - Rutas API para datos simulados:
      - `/usuarios`
      - `/productos`
 
-2. **Carpeta `mock-data`:**
-   - Contiene ejemplos de datos estructurados para simular bases de datos de usuarios y productos.
-   - Utilizado para alimentar las funcionalidades de App3.
+2. **Mock Data**:
+   - Carpeta `mock-data` con datos simulados de usuarios y productos.
 
-3. **Carpeta `scripts`:**
-   - Incluye scripts útiles para generación de datos (como `generar_usuarios.sh`) y pruebas de base de datos (`populate-db.sh`).
+3. **Scripts Útiles**:
+   - Carpeta `scripts` con herramientas como `generar_usuarios.sh`.
 
-4. **Proxy Reverso Mejorado con NGINX:**
-   - Se configuró correctamente NGINX para redirigir `/app3` a la nueva App3 profesionalizada en el puerto `3002`.
+4. **Proxy con NGINX**:
+   - Redirección de `/app3` al puerto `3002`.
 
-5. **Compatibilidad Avanzada con Docker:**
-   - Se ajustaron los archivos `Dockerfile` y `docker-compose.yml` para soportar la nueva estructura de App3.
-   - Uso de `express.static` para servir archivos estáticos (HTML, CSS y JS) en App3.
+5. **Compatibilidad con Docker**:
+   - Archivos `Dockerfile` y `docker-compose.yml` actualizados.
 
 ---
 
-## 🔄 **Diferencias con la Rama `master`**
+## ✅ Requisitos
 
-### Rama `master`:
-- **App3**: Contenía una versión básica con datos simulados y un diseño sencillo sin CSS ni JavaScript.
-- **Foco**: En la estructura básica y funcionalidad mínima viable.
-
-### Rama `version2.0`:
-- **App3**: Transformada en una aplicación profesional con un **dashboard interactivo**.
-- **Diseño Mejorado**: Se incorporó un diseño mucho más atractivo con CSS y JavaScript.
-- **Funcionalidad Avanzada**: Soporte para datos simulados, visualización profesional y API funcional.
-- **Carpetas Extra**: Se añadieron `mock-data`, `scripts` y ajustes avanzados en configuraciones.
-
----
-
-## ✅ **Requisitos Previos**
-
-Asegúrate de tener instalados los siguientes programas:
-
-- **Docker**: Para construir y ejecutar contenedores.
-- **Docker Compose**: Para desplegar múltiples servicios fácilmente.
-- **Node.js**: Para ejecutar y probar localmente los archivos de App3.
-- **Git**: Para clonar el repositorio y gestionar las ramas del proyecto.
+- **Docker**
+- **Node.js**
+- **Git**
 
 Verificá que tenés todo instalado ejecutando:
 
