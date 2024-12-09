@@ -19,7 +19,8 @@ services:
     networks:
       - my-network
 
-  app3:
+  # Primera instancia de app3
+  app3_instance1:
     build:
       context: ./app3
     image: app3_image:latest
@@ -27,8 +28,16 @@ services:
       - APP_MODE=version2.0
     networks:
       - my-network
-    ports:
-      - "3002:3002"  # Solo para desarrollo, NGINX lo manejará en producción
+
+  # Segunda instancia de app3
+  app3_instance2:
+    build:
+      context: ./app3
+    image: app3_image:latest
+    environment:
+      - APP_MODE=version2.0
+    networks:
+      - my-network
 
   nginx:
     build:
@@ -39,7 +48,8 @@ services:
     depends_on:
       - app1
       - app2
-      - app3
+      - app3_instance1
+      - app3_instance2
     networks:
       - my-network
 
@@ -49,6 +59,7 @@ volumes:
 networks:
   my-network:
     driver: bridge
+
 
 
 
