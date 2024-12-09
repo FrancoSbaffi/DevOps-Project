@@ -72,11 +72,12 @@ cd Proyecto-Integrador
 2. Construir y levantar los contendores:
 
 ```bash
-docker-compose up --build
+docker-compose --env-file .env.version2.0 up --build
 ```
 
 Esto levantará las aplicaciones:
 
+- Página principal: http://localhost
 - App1: http://localhost/app1
 - App2: http://localhost/app2
 - App3: http://localhost/app3
