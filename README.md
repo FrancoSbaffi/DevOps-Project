@@ -208,6 +208,9 @@ Una vez desplegado, accedé a:
 - 🖥️ **App1**: [http://localhost/app1](http://localhost/app1)  
 - 🖥️ **App2**: [http://localhost/app2](http://localhost/app2)  
 
+- `app1`: Una aplicación de portafolio personal diseñada para mostrar un sitio web con proyectos y habilidades.
+- `app2`: Un sencillo juego interactivo que permite al usuario esquivar obstáculos y medir su puntuación.
+
 ---
 
 ## 🛠️ **Verificación del Estado**
