@@ -1,34 +1,85 @@
 # Proyecto Integrador (Rama Develop)
 
-Esta rama (`develop`) actualmente se encuentra alineada con la rama `master`, compartiendo la misma configuración y sin cambios adicionales. Sin embargo, es importante entender el propósito de `develop` dentro del flujo de trabajo, incluso si por el momento no presenta diferencias con `master`.
+Esta rama (`develop`) actualmente se encuentra alineada con la rama `master`, antes fué usada para poder lograr el desarrollo sin afectar la rama de producción, como `master`, cumplió con los objetivos y no necesita mas cambios, `develop` pasa a cambiar y brindar una segunda opción en casó de que se ubiese requerido usar AWS.
 
-## Rol de la Rama Develop
+## Lo que cambía
 
-- **Zona de Integración:**  
-  `develop` tiene como finalidad servir de entorno intermedio entre las características ya consolidadas en `master` y las nuevas funcionalidades en proceso de desarrollo que surgen desde ramas tipo `feature/` o ajustes provenientes de otros entornos (por ejemplo, `staging`).
+- **Proxy Reverso (NGINX):** Permite redirigir el tráfico entrante hacia las aplicaciones `app1` y `app2`, proporcionándoles rutas limpias y centralizando la configuración de acceso.
+- **Almacenamiento por Bloque (EBS en AWS):** Los datos de las aplicaciones se almacenan en un volumen EBS, garantizando persistencia y facilitando la separación entre la lógica de la aplicación y el almacenamiento de datos.
 
-- **Próximo Paso Antes de Producción:**  
-  Cuando se valida una nueva funcionalidad, se integra acá para probar su estabilidad antes de pasarla a `master`. De este modo, `develop` asegura que la versión que llegará a producción (en `master`) sea lo más estable y confiable posible.
+(El resto de ramas y la creación de imagenes Docker siguen de la misma manera)
 
-## Situación Actual
+## Proxy Reverso
 
-En este momento, `develop` no presenta cambios respecto a `master`. Esto puede suceder cuando:
+En el `nginx.conf` se definen upstreams para `app1` y `app2`:
 
-1. **No hay nuevas funcionalidades listas para integrar** desde `staging` o `feature/`.
-2. **La plataforma se encuentra en un estado estable** donde no se requieren ajustes inmediatos en preproducción.
+```nginx
+http {
+    upstream app1 {
+        server app1:80;
+    }
 
-A pesar de ello, la existencia de esta rama mantiene la estructura del flujo de trabajo. En el futuro, cuando se decida incorporar las mejoras o cambios ya probados en `staging` (donde se concentran las diferencias y pruebas) o en alguna rama `feature/`, estas pasarán primero por `develop`, basicamente lo que quiero reflejar con esta rama es que se terminan pasadon los cambios de las ramas anteriores para pulirlas e implementarlas luego a producción.
+    upstream app2 {
+        server app2:80;
+    }
 
-## Futuras Integraciones
+    server {
+        listen 80;
 
-- **Desde `staging` a `develop`:**  
-  Una vez que los cambios en `staging` sean validados y considerados listos para pasar al siguiente nivel, se integrarán en `develop`. Esto permitirá un control de calidad adicional antes de llegar a `master`.
+        # Redirigir /app1 hacia la app1
+        location /app1/ {
+            proxy_pass http://app1/;
+        }
 
-- **Desde `feature/*` a `develop`:**  
-  Nuevas funcionalidades, desarrolladas en ramas `feature/`, se integran en `develop` una vez finalizadas y probadas localmente. Así se asegura que `develop` refleje la próxima versión candidata a producción.
+        # Redirigir /app2 hacia la app2
+        location /app2/ {
+            proxy_pass http://app2/;
+        }
 
-## Conclusión
+        # Página principal
+        location / {
+            root /usr/share/nginx/html;
+            index site.html;
+        }
+    }
+}
+```
 
-Aunque en este momento `develop` refleje exactamente el estado de `master` sin diferencias, su importancia radica en el flujo de trabajo a largo plazo. `develop` es el paso necesario antes de llevar cambios a `master`, proporcionando un punto de control adicional. Cuando las mejoras o cambios hechos en `staging` estén listos, `develop` se convertirá en el lugar donde se integran y prueban antes de su despliegue final en producción.
+Esto significa que las solicitudes a http://miinstancia/app1/ se servirán desde app1, y las solicitudes a http://miinstancia/app2/ desde app2. NGINX actúa como puerta de entrada única, simplificando la exposición de las aplicaciones al exterior.
 
+## Almacenamiento por bloque
 
+Anteriormente usé en master Volumenes de Docker para simular Almacenamiento por bloque, Para garantizar la persistencia de datos y un entorno más cercano a producción, acá se ha optado por un volumen EBS en AWS. Este volumen:
+
+- Se monta en la instancia EC2 en /ebs-data.
+- Se utilizan bind mounts en el docker-compose.yml para que app1 y app2 sirvan su contenido desde /ebs-data/app1 y /ebs-data/app2 respectivamente.
+
+```docker-compose.yml
+services:
+  app1:
+    build:
+      context: ./app1
+    image: app1_image:latest
+    volumes:
+      - /ebs-data/app1:/var/www/html
+
+  app2:
+    build:
+      context: ./app2
+    image: app2_image:latest
+    volumes:
+      - /ebs-data/app2:/var/www/html
+```
+
+De esta manera, los archivos index.html, CSS, JS y otros recursos estáticos se encuentran fuera de la imagen del contenedor y pueden persistir entre recreaciones de los mismos.
+
+### Creación y Despliegue de Imágenes Docker
+
+Cada servicio (app1, app2, nginx) tiene su propio Dockerfile. Con docker-compose se construyen las imágenes y se levantan los contenedores:
+
+```bash
+docker-compose down
+docker-compose up -d --build
+```
+
+Con esto lo que queria lograr es mostrar multiples formas de llevar a cabo el proyecto.
