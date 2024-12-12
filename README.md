@@ -71,7 +71,7 @@ services:
       - /ebs-data/app2:/var/www/html
 ```
 
-De esta manera, los archivos index.html, CSS, JS y otros recursos estáticos se encuentran fuera de la imagen del contenedor y pueden persistir entre recreaciones de los mismos.
+De esta forma, los archivos que sirven las aplicaciones se almacenan realmente en el volumen EBS (almacenamiento por bloques), y no en el almacenamiento efímero del contenedor. Si el contenedor se elimina o se recrea, los datos persisten en el volumen EBS.
 
 ### Creación y Despliegue de Imágenes Docker
 
