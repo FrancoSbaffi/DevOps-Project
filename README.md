@@ -57,7 +57,7 @@ Este proyecto utiliza cuatro ramas:
 
 ## 🌐 **Balanceo de Cargas y Proxy Reverso**
 
-El balanceo de cargas se implementa usando **NGINX** como proxy reverso. Redirige el tráfico entre dos aplicaciones (`app1` y `app2`) para distribuir la carga. 
+Este archivo de configuración utiliza NGINX como proxy inverso para dirigir el tráfico hacia dos aplicaciones diferentes (`app1` y `app2`) en función de la ruta solicitada. Cada bloque `upstream` define una aplicación de backend a la cual se redirige el tráfico. Sin embargo, cada `upstream` solo contiene un servidor, por lo que no se está realizando balanceo de carga entre múltiples instancias del mismo servicio. En este caso, NGINX actúa únicamente como proxy inverso.
 
 📁 **Archivo de configuración**: `nginx/nginx.conf`  
 📁 **Página inicial**: `nginx/site.html`  
