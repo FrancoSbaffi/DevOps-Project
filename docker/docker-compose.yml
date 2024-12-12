@@ -1,10 +1,13 @@
+version: '3.8'
+
 services:
   app1:
     build:
       context: ./app1
     image: app1_image:latest
+    
     volumes:
-      - app1-data:/var/www/html
+      - /ebs-data/app1:/var/www/html
     networks:
       - my-network
 
@@ -12,8 +15,9 @@ services:
     build:
       context: ./app2
     image: app2_image:latest
+    
     volumes:
-      - ./app2:/var/www/html
+      - /ebs-data/app2:/var/www/html
     networks:
       - my-network
 
@@ -29,13 +33,11 @@ services:
     networks:
       - my-network
 
-volumes:
-  app1-data:
-  app2-data:
-
 networks:
   my-network:
     driver: bridge
+
+
 
 
 
