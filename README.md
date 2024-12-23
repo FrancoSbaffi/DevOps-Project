@@ -3,8 +3,6 @@
 
 A major upgrade introducing App3, advanced tools, load balancing, and reverse proxy setups.
 
----
-
 ## Key Changes
 
 1. **App3 Dashboard**:
@@ -18,8 +16,6 @@ A major upgrade introducing App3, advanced tools, load balancing, and reverse pr
 
 4. **Docker Support**:
    - Updated Dockerfile and docker-compose.yml.
-
----
 
 ## Deployment
 
