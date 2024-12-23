@@ -3,6 +3,8 @@
 
 A major upgrade introducing App3, advanced tools, load balancing, and reverse proxy setups.
 
+---
+
 ## Key Changes
 
 1. **App3 Dashboard**:
