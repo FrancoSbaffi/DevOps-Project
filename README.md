@@ -1,17 +1,15 @@
-# Proyecto Integrador (Rama Develop)
+# (Develop Branch)
 
-Esta rama (`develop`) actualmente se encuentra alineada con la rama `master`, antes fué usada para poder lograr el desarrollo sin afectar la rama de producción, como `master`, cumplió con los objetivos y no necesita mas cambios, `develop` pasa a cambiar y brindar una segunda opción en casó de que se ubiese requerido usar AWS.
+This branch  (`develop`) was originally used to enable development without impacting the production branch `master`, Now aligned with `master`, it has fulfilled its purpose and does not require further changes. However, `develop`  has been adapted to provide an alternative setup leveraging AWS services if required.
 
-## Lo que cambía
+## Key Changes
 
-- **Proxy Reverso (NGINX):** Permite redirigir el tráfico entrante hacia las aplicaciones `app1` y `app2`, proporcionándoles rutas limpias y centralizando la configuración de acceso.
-- **Almacenamiento por Bloque (EBS en AWS):** Los datos de las aplicaciones se almacenan en un volumen EBS, garantizando persistencia y facilitando la separación entre la lógica de la aplicación y el almacenamiento de datos.
+- **Reverse Proxy (NGINX)**: Manages incoming traffic to  `app1` and  `app2`, providing clean routes and centralizing access configuration.
+- **Block Storage (AWS EBS):** Application data is stored on an EBS volume, ensuring persistence and separating application logic from data storage.
 
-(El resto de ramas y la creación de imagenes Docker siguen de la misma manera)
+## Reverse Proxy
 
-## Proxy Reverso
-
-En el `nginx.conf` se definen upstreams para `app1` y `app2`:
+The  `nginx.conf` defines upstreams for `app1` and `app2` as follows:
 
 ```nginx
 http {
@@ -26,17 +24,17 @@ http {
     server {
         listen 80;
 
-        # Redirigir /app1 hacia la app1
+        # Redirect /app1 to app1
         location /app1/ {
             proxy_pass http://app1/;
         }
 
-        # Redirigir /app2 hacia la app2
+        # Redirect /app2 to app2
         location /app2/ {
             proxy_pass http://app2/;
         }
 
-        # Página principal
+        # Main page
         location / {
             root /usr/share/nginx/html;
             index site.html;
@@ -45,14 +43,14 @@ http {
 }
 ```
 
-Esto significa que las solicitudes a http://miinstancia/app1/ se servirán desde app1, y las solicitudes a http://miinstancia/app2/ desde app2. NGINX actúa como puerta de entrada única, simplificando la exposición de las aplicaciones al exterior.
+Requests to `http://myinstance/app1/` are served by `app1`, while requests to `http://myinstance/app2/` are served by `app2`. NGINX acts as a single entry point, simplifying external access to the applications.
 
-## Almacenamiento por bloque
+## Block Storage
 
-Anteriormente usé en master Volumenes de Docker para simular Almacenamiento por bloque, Para garantizar la persistencia de datos y un entorno más cercano a producción, acá se ha optado por un volumen EBS en AWS. Este volumen:
+While the master branch simulated block storage using Docker volumes, the develop branch uses an `AWS EBS` volume for data persistence and a more production-like environment. The EBS volume:
 
-- Se monta en la instancia EC2 en /ebs-data.
-- Se utilizan bind mounts en el docker-compose.yml para que app1 y app2 sirvan su contenido desde /ebs-data/app1 y /ebs-data/app2 respectivamente.
+- Is mounted on the EC2 instance at `/ebs-data`.
+- Uses bind mounts in the `docker-compose.yml` file, allowing `app1` and `app2` to serve content from `/ebs-data/app1` and `/ebs-data/app2`, respectively.
 
 ```docker-compose.yml
 services:
@@ -71,15 +69,15 @@ services:
       - /ebs-data/app2:/var/www/html
 ```
 
-De esta forma, los archivos que sirven las aplicaciones se almacenan realmente en el volumen EBS (almacenamiento por bloques), y no en el almacenamiento efímero del contenedor. Si el contenedor se elimina o se recrea, los datos persisten en el volumen EBS.
+This ensures that files served by the applications are stored on the EBS volume (block storage) rather than ephemeral container storage. If a container is removed or recreated, the data remains intact on the EBS volume.
 
-### Creación y Despliegue de Imágenes Docker
+### Docker Image Creation and Deployment
 
-Cada servicio (app1, app2, nginx) tiene su propio Dockerfile. Con docker-compose se construyen las imágenes y se levantan los contenedores:
+Each service (app1, app2, nginx) has its own Dockerfile. Images are built, and containers are deployed using Docker Compose:
 
 ```bash
 docker-compose down
 docker-compose up -d --build
 ```
 
-Con esto lo que queria lograr es mostrar multiples formas de llevar a cabo el proyecto.
+This branch showcases multiple approaches to implementing the project, emphasizing adaptability and leveraging AWS for enhanced production readiness.
