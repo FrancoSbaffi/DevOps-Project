@@ -1,40 +1,39 @@
+version: '3.8'
+
 services:
   app1:
     build:
       context: ./app1
     image: app1_image:latest
-    volumes:
-      - app1-data:/var/www/html
+    user: "1001:1001" # Non-root user
+    ports:
+      - "3001:80"
     networks:
-      - my-network
+      - app_network
 
   app2:
     build:
       context: ./app2
     image: app2_image:latest
-    volumes:
-      - ./app2:/var/www/html
+    user: "1001:1001" # Non-root user
+    ports:
+      - "3002:80"
     networks:
-      - my-network
+      - app_network
 
   nginx:
     build:
       context: ./nginx
     image: nginx_image:latest
     ports:
-      - "80:80"
-    depends_on:
-      - app1
-      - app2
+      - "443:443"
     networks:
-      - my-network
-
-volumes:
-  app1-data:
-  app2-data:
+      - app_network
+    volumes:
+      - ./nginx/ssl:/etc/nginx/ssl:ro
 
 networks:
-  my-network:
+  app_network:
     driver: bridge
 
 
