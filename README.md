@@ -1,4 +1,4 @@
-# Project Integrator (Feature Branch: feature/new-functionality)
+# (Feature Branch: feature/new-functionality)
 
 This branch, `feature/new-functionality`, is dedicated to the isolated development of a new feature, ensuring the stability of both the `develop` and `master` branches. It allows:
 
