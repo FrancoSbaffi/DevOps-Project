@@ -1,10 +1,11 @@
-# Proyecto Integrador (Rama feature/nueva-funcionalidad)
+# Project Integrator (Feature Branch: feature/new-functionality)
 
-Esta rama es donde trabajo una nueva funcionalidad de forma aislada, sin afectar la rama `develop` ni la `master`. Acá puedo:
+This branch, `feature/new-functionality`, is dedicated to the isolated development of a new feature, ensuring the stability of both the `develop` and `master` branches. It allows:
 
-- Desarrollar y probar la nueva característica localmente.
-- Ajustar configuraciones (Dockerfiles, archivos HTML, etc.) sin riesgos.
-- Una vez lista, integrarla luego a `develop` cuando se considere que está estable.
+- Local development and testing of the new functionality.
+- Safe adjustments to configurations (Dockerfiles, HTML files, etc.) without risk.
+- Seamless integration into `develop` once the feature is stable and well-tested.
 
-Como soy el único desarrollador, este flujo me ayuda a mantener el código principal intacto y asegurar que las mejoras lleguen bien probadas antes de avanzar hacia producción.
+## Benefits of This Workflow
 
+As the sole developer, this approach helps me maintain the integrity of the main codebase while ensuring that new improvements are thoroughly tested before advancing towards production.
